@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.LEDChainCommand;
+import frc.robot.commands.LEDFlashbangCommand;
 import frc.robot.subsystems.lights.LEDlights;
 import frc.robot.subsystems.lights.LEDlights.CommonColours;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -47,7 +48,7 @@ public class RobotContainer {
     driverController.start().onTrue(LEDlightsSubsystem.rainbowCommand());
     driverController.a().onTrue(LEDlightsSubsystem.setColorCommand(CommonColours.RED.colour));
     driverController.b().onTrue(LEDlightsSubsystem.setColorCommand(CommonColours.GREEN.colour));
-    driverController.x().onTrue(LEDlightsSubsystem.setColorCommand(CommonColours.BLUE.colour));
+    driverController.x().onTrue(new LEDFlashbangCommand(LEDlightsSubsystem));
     driverController.y().onTrue(new LEDChainCommand(LEDlightsSubsystem));
     //driverController.back().whileTrue(getAutonomousCommand());//this is added in only to run it like an auto in teleop, so you can see what happens with inturrupts 
   }

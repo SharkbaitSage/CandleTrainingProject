@@ -11,7 +11,7 @@ public class LEDChainCommand extends Command {
     private final Timer timer = new Timer();
     private final Timer secondTimer = new Timer();
     private int indexAmount = 1;
-    Colour randomColour;
+    public Colour randomColour;
     
     public LEDChainCommand (LEDlights ledSubsystem) {
         this.ledSubsystem = ledSubsystem;
