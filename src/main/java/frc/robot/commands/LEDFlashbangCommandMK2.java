@@ -42,27 +42,26 @@ public class LEDFlashbangCommandMK2 extends Command{
     
     public void execute() {
         //colourPicker();
+        int ledAmount = 10;
         int lightTrail = LEDPosition - 10;
         if (lightTrail < 0) {
             lightTrail = 0;
         }
-        if (timer.get() >= 0.1 && LEDPosition < 212) {
+        if (timer.get() >= 0.1) {
             timer.reset();
-            ledSubsystem.setLEDS(chaosColour, LEDPosition,10);
+            ledSubsystem.setLEDS(currentColour[colourIndex], LEDPosition,ledAmount);
             LEDPosition++;
-           
-        }
-       
-        if (LEDPosition >= 212 && timer.get() >= 1) {
-            
-            timer.reset();
-            ledSubsystem.setLEDS(CommonColours.OFF.colour, 0, 212);
-            ledSubsystem.setLEDS(currentColour[colourIndex], 0, 212);
             colourIndex++;
             if (colourIndex >= 6) {
                 colourIndex = 0;
             }
-        } 
+            if (LEDPosition >= 212) {
+                LEDPosition = 0;
+                ledAmount = 212;
+            }
+        }
+       
+
     int chaosColourIndex = (int) (Math.random() * 6);
     chaosColour = switch (chaosColourIndex) {
         case 0 -> CommonColours.BLUE.colour;
