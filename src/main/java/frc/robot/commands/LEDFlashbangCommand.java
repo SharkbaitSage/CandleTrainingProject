@@ -10,11 +10,11 @@ public class LEDFlashbangCommand extends Command{
     private final LEDlights ledSubsystem;
     private final Timer timer = new Timer();
     private final Timer trailTimer = new Timer();
-    private int indexAmount;
+    private int indexAmount = -1;
     private Colour currentColour;
     private Colour chaosColour;
     private int colourIndex = 0;
-    private int lightTrail = indexAmount - 10;
+    
     
     public LEDFlashbangCommand (LEDlights ledSubsystem) {
         this.ledSubsystem = ledSubsystem;
@@ -28,6 +28,7 @@ public class LEDFlashbangCommand extends Command{
         trailTimer.start();
         trailTimer.reset();
         indexAmount = -1;
+
     }
 
     public void colourPicker() {
@@ -59,21 +60,21 @@ public class LEDFlashbangCommand extends Command{
     
     
     public void execute() {
+     int lightTrail = indexAmount - 10;
         if (lightTrail < 0) {
             lightTrail = 0;
         }
         if (timer.get() > 0.1 && indexAmount < 212) {
             timer.reset();
-            ledSubsystem.setLEDS(CommonColours.CHARTREUSE.colour, indexAmount,10);
+            ledSubsystem.setLEDS(chaosColour, indexAmount,10);
             indexAmount++;
         }
-        if (trailTimer.get() > 0.25 && indexAmount < 212 ) {
-            ledSubsystem.setLEDS(chaosColour, lightTrail, 10);
-        }
+       
         if (indexAmount >= 212 && timer.get() > 0.1) {
             colourPicker();
             timer.reset();
-            ledSubsystem.setLEDS(currentColour, 1, 212);
+            ledSubsystem.setLEDS(CommonColours.OFF.colour, 0, 212);
+            ledSubsystem.setLEDS(currentColour, 0, 212);
             colourIndex++;
         }
     int chaosColourIndex = (int) (Math.random() * 6);
