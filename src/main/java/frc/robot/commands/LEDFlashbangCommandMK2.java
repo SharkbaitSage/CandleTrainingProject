@@ -10,9 +10,6 @@ public class LEDFlashbangCommandMK2 extends Command{
     private final LEDlights ledSubsystem;
     private final Timer timer = new Timer();
     private int LEDPosition = -1;
-    private Colour[] currentColour = {CommonColours.RED.colour,
-        CommonColours.BLUE.colour,CommonColours.WHITE.colour,CommonColours.GREEN.colour
-        , CommonColours.PURPLE.colour,CommonColours.YELLOW.colour };
     private Colour chaosColour;
     private int colourIndex = 0;
     
@@ -27,18 +24,7 @@ public class LEDFlashbangCommandMK2 extends Command{
         timer.start();
         timer.reset();
         LEDPosition = 0;
-
     }
-
-    public void colourPicker() {
-        currentColour[0] = CommonColours.BLUE.colour;
-        currentColour[1] = CommonColours.RED.colour;
-        currentColour[2] = CommonColours.WHITE.colour;
-        currentColour[3] = CommonColours.GREEN.colour;
-        currentColour[4] = CommonColours.PURPLE.colour;
-        currentColour[5] = CommonColours.YELLOW.colour;
-    }
-    
     
     public void execute() {
         //colourPicker();
@@ -48,7 +34,9 @@ public class LEDFlashbangCommandMK2 extends Command{
         }
         if (timer.get() >= 0.1 && LEDPosition < 212) {
             timer.reset();
-            ledSubsystem.setLEDS(chaosColour, LEDPosition,10);
+
+            int chaosColourIndex = (int) (Math.random() * 6);
+            ledSubsystem.setLEDS(getSetColour(chaosColourIndex), LEDPosition,10);
             LEDPosition++;
            
         }
@@ -57,23 +45,24 @@ public class LEDFlashbangCommandMK2 extends Command{
             
             timer.reset();
             ledSubsystem.setLEDS(CommonColours.OFF.colour, 0, 212);
-            ledSubsystem.setLEDS(currentColour[colourIndex], 0, 212);
+            ledSubsystem.setLEDS(getSetColour(colourIndex), 0, 212);
             colourIndex++;
             if (colourIndex >= 6) {
                 colourIndex = 0;
             }
-        } 
-    int chaosColourIndex = (int) (Math.random() * 6);
-    chaosColour = switch (chaosColourIndex) {
-        case 0 -> CommonColours.BLUE.colour;
-        case 1 -> CommonColours.CYAN.colour;
-        case 2 -> CommonColours.RED.colour;
-        case 3 -> CommonColours.GREEN.colour;
-        case 4 -> CommonColours.PURPLE.colour;
-        case 5 -> CommonColours.YELLOW.colour;
-        default -> CommonColours.OFF.colour;
-    };
-    
+        }
+    }
+
+    public Colour getSetColour(int colourIndex) {
+        Colour color = switch(colourIndex) {
+            case 0 -> CommonColours.BLUE.colour;
+            case 1 -> CommonColours.CYAN.colour;
+            case 2 -> CommonColours.RED.colour;
+            case 3 -> CommonColours.GREEN.colour;
+            case 4 -> CommonColours.PURPLE.colour;
+            case 5 -> CommonColours.YELLOW.colour;
+            default -> CommonColours.OFF.colour;
+        }
     }
 }
 
